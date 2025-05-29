@@ -1,0 +1,62 @@
+.name {
+    position: absolute;
+    font-size: 48px;
+    font-weight: 700;
+    top: 25px;
+    left: 180px;
+    color: #2d3748;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: -0.5px;
+}
+
+.dob {
+    position: absolute;
+    font-size: 42px;
+    font-weight: 600;
+    top: 30px;
+    right: 240px;
+    color: #4c63d2;
+    background: linear-gradient(135deg, #4c63d2, #667eea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.phone, .email, .location, .country {
+    position: absolute;
+    font-size: 32px;
+    font-weight: 500;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #4a5568;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 300px;
+}
+
+.phone {
+    top: 420px;
+}
+
+.email {
+    top: 480px;
+}
+
+.location {
+    top: 540px;
+}
+
+.country {
+    top: 600px;
+}
+
+.phone:hover, .email:hover, .location:hover, .country:hover {
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 4px 15px rgba(76, 99, 210, 0.15);
+    background: rgba(255, 255, 255, 0.95);
+}

@@ -1,0 +1,22 @@
+.picture {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    margin-left: 50%;
+    margin-top: 18%;
+    border: 3px solid #4c63d2;
+    border-radius: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(76, 99, 210, 0.3), 
+                0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background: linear-gradient(145deg, #ffffff, #f0f4f8);
+}
+
+.picture:hover {
+    transform: translateX(-50%) translateY(-50%) scale(1.05);
+    box-shadow: 0 12px 35px rgba(76, 99, 210, 0.4), 
+                0 6px 20px rgba(0, 0, 0, 0.15);
+    border-color: #5a72e8;
+}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <div class="header">
+                <h1>Profilo Utente Casuale</h1>
+                <button id="refresh-btn" class="refresh-btn">🔄 Nuovo Utente</button>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-image">
+                    <img class="picture" src="" alt="Foto profilo" />
+                </div>
+                
+                <div class="profile-info">
+                    <div class="info-item">
+                        <span class="label">👤 Nome:</span>
+                        <span class="name value"></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="label">📧 Email:</span>
+                        <span class="email value"></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="label">📱 Telefono:</span>
+                        <span class="phone value"></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="label">🎂 Età:</span>
+                        <span class="dob value"></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="label">🏠 Indirizzo:</span>
+                        <span class="location value"></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="label">🌍 Paese:</span>
+                        <span class="country value"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Caricamento...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let url = "https://randomuser.me/api/";
+        let glbPerson;
+        let n = document.querySelector(".name");
+        let s = document.querySelector(".surname");
+        let e = document.querySelector(".email");
+        let p = document.querySelector(".phone");
+        let d = document.querySelector(".dob");
+        let l = document.querySelector(".location");
+        let c = document.querySelector(".country");
+        let img = document.querySelector(".picture");
+        let loading = document.getElementById("loading");
+        let profileContent = document.querySelector(".profile-content");
+        let refreshBtn = document.getElementById("refresh-btn");
+
+        function showLoading() {
+            loading.style.display = "flex";
+            profileContent.style.display = "none";
+        }
+
+        function hideLoading() {
+            loading.style.display = "none";
+            profileContent.style.display = "flex";
+        }
+
+        function fetchUser() {
+            showLoading();
+            
+            fetch(url).then(
+                function (resp) {
+                    console.log(resp)
+                    return resp.json()
+                }
+            ).then(
+                function (glbPerson) {
+                    img.setAttribute("src", glbPerson.results[0].picture.large);
+                    img.setAttribute("alt", "Foto di " + glbPerson.results[0].name.first);
+                    n.innerHTML = glbPerson.results[0].name.first + " " + glbPerson.results[0].name.last;
+                    e.innerHTML = glbPerson.results[0].email;
+                    p.innerHTML = glbPerson.results[0].phone;
+                    d.innerHTML = glbPerson.results[0].dob.age + " anni";
+                    l.innerHTML = glbPerson.results[0].location.street.name + " " + glbPerson.results[0].location.street.number;
+                    c.innerHTML = glbPerson.results[0].location.state + ", " + glbPerson.results[0].location.country;
+                    
+                    setTimeout(hideLoading, 500); // Piccolo delay per effetto visivo
+                }
+            ).catch(
+                function (err) {
+                    console.log(err);
+                    hideLoading();
+                    alert("Errore nel caricamento dei dati utente");
+                }
+            )
+        }
+
+        // Carica il primo utente al caricamento della pagina
+        fetchUser();
+
+        // Aggiungi event listener per il pulsante refresh
+        refreshBtn.addEventListener("click", fetchUser);
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .refresh-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .refresh-btn:active {
+            transform: scale(0.95);
+        }
+
+        .profile-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .profile-image {
+            position: relative;
+        }
+
+        .picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #f0f0f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .picture:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-info {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            border-left: 4px solid #4facfe;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: #f0f4ff;
+            transform: translateX(5px);
+        }
+
+        .label {
+            font-weight: 600;
+            color: #555;
+            min-width: 110px;
+            font-size: 0.9rem;
+        }
+
+        .value {
+            color: #333;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: #666;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .profile-content {
+                padding: 20px;
+            }
+            
+            .picture {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .label {
+                min-width: auto;
+            }
+        }
+    </style>
+</body>
+</html>
